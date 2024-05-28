@@ -3,7 +3,7 @@ import api from "../service/api";
 import Swal from "sweetalert2";
 import React from "react";
 import {login} from "../service/auth";
-import Background from "../assets/background.jpg"
+import Background from "../assets/background.jpeg"
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -27,10 +27,10 @@ export default function Login() {
         })
     }
     return (
-        <div className="login-page" style={{ background: `url(${Background})`, backgroundSize:"cover", backgroundPosition:'center', objectFit:'cover'}}  >
-            <div className="card card card-yellow" style={{width: 600}}>
+        <div className="login-page" style={{ background: `url(https://images3.alphacoders.com/985/thumb-1920-985367.jpg)`, backgroundSize:"cover", backgroundPosition:'center', objectFit:'cover'}}  >
+            <div className="card card card-gray" style={{width: 600}}>
                 <div className="card-header text-center">
-                    <a href="../../index.html" className="h1"><b>Unentel </b> Cotação</a>
+                    <a href="../../index.html" className="h1"><b>ODS </b> 16</a>
                 </div>
                 <div className="card-body">
                     <p className="login-box-msg">&nbsp;</p>
