@@ -1,13 +1,16 @@
-import {useState} from "react";
+import { useState } from "react";
 import api from "../service/api";
 import Swal from "sweetalert2";
 import React from "react";
-import {login} from "../service/auth";
-import Background from "../assets/background.jpeg"
+import { login } from "../service/auth";
+import Background from "../assets/background.jpeg";
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+
     function handleLogin(e) {
         e.preventDefault();
         const payload = {
@@ -23,14 +26,15 @@ export default function Login() {
                 text: "Não foi possível fazer login",
                 icon: 'error',
                 confirmButtonText: 'Ok'
-            })
-        })
+            });
+        });
     }
+
     return (
-        <div className="login-page" style={{ background: `url(https://images3.alphacoders.com/985/thumb-1920-985367.jpg)`, backgroundSize:"cover", backgroundPosition:'center', objectFit:'cover'}}  >
-            <div className="card card card-gray" style={{width: 600}}>
+        <div className="login-page" style={{ background: `url(${Background})`, backgroundSize: "cover", backgroundPosition: 'center', objectFit: 'cover' }}>
+            <div className="card card-gray" style={{ width: 600 }}>
                 <div className="card-header text-center">
-                    <a href="../../index.html" className="h1"><b>ODS </b> 16</a>
+                    <a href="../../index.html" className="h1"><b>Alert </b> Net</a>
                 </div>
                 <div className="card-body">
                     <p className="login-box-msg">&nbsp;</p>
@@ -45,7 +49,7 @@ export default function Login() {
                             </div>
                         </div>
                         <div className="input-group mb-3">
-                            <input type="password" className="form-control" placeholder="Senha" onChange={event => setPassword(event.target.value)}/>
+                            <input type="password" className="form-control" placeholder="Senha" onChange={event => setPassword(event.target.value)} />
                             <div className="input-group-append">
                                 <div className="input-group-text">
                                     <span className="fas fa-lock"></span>
@@ -64,10 +68,14 @@ export default function Login() {
                             <div className="col-4">
                                 <button type="submit" className="btn btn-secondary btn-block">Entrar</button>
                             </div>
-
                         </div>
                     </form>
 
+                    <div className="row mt-3">
+                        <div className="col-12 text-center">
+                            <button onClick={() => navigate("/register")} className="btn btn-secondary btn-block">Registrar</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
