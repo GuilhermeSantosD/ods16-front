@@ -1,13 +1,24 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import api from "../service/api";
 import Swal from "sweetalert2";
 import Background from "../assets/background.jpeg";
+import { useNavigate } from 'react-router-dom';
+import {isAuthenticated} from "../service/auth";
 
 export default function Register() {
     const [name, setName] = useState("");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isAuthenticated()) {
+            navigate('/login');
+        }
+    }, [navigate]);
+
+    // Rest of your component code...
 
     function handleRegister(e) {
         e.preventDefault();
@@ -25,7 +36,7 @@ export default function Register() {
                 icon: 'success',
                 confirmButtonText: 'Ok'
             }).then(() => {
-                window.location.href = "/login";
+                navigate("/login");
             });
         }).catch(error => {
             Swal.fire({
@@ -38,10 +49,10 @@ export default function Register() {
     }
 
     return (
-        <div className="register-page" style={{ background: `url(${Background})`, backgroundSize:"cover", backgroundPosition:'center', objectFit:'cover'}}  >
-            <div className="card card-gray" style={{width: 600}}>
+        <div className="register-page" style={{ background: `url(${Background})`, backgroundSize: "cover", backgroundPosition: 'center', objectFit: 'cover' }}>
+            <div className="card card-gray" style={{ width: 600 }}>
                 <div className="card-header text-center">
-                    <a href="../../index.html" className="h1"><b>ODS </b> 16</a>
+                    <a href="../../index.html" className="h1"><b>Alert </b> Net</a>
                 </div>
                 <div className="card-body">
                     <p className="register-box-msg">&nbsp;</p>
@@ -72,7 +83,7 @@ export default function Register() {
                             </div>
                         </div>
                         <div className="input-group mb-3">
-                            <input type="password" className="form-control" placeholder="Senha" onChange={event => setPassword(event.target.value)}/>
+                            <input type="password" className="form-control" placeholder="Senha" onChange={event => setPassword(event.target.value)} />
                             <div className="input-group-append">
                                 <div className="input-group-text">
                                     <span className="fas fa-lock"></span>

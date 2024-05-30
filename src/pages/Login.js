@@ -1,10 +1,10 @@
-import { useState } from "react";
+import {useState} from "react";
 import api from "../service/api";
 import Swal from "sweetalert2";
 import React from "react";
-import { login } from "../service/auth";
+import {login, isAuthenticated, logout} from "../service/auth";
 import Background from "../assets/background.jpeg";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -19,8 +19,11 @@ export default function Login() {
         };
         api.post("/auth/signin", payload).then(response => {
             login(response.data.accessToken);
-            window.location.href = "/";
+            console.log('Access token after login:', response.data.accessToken); // Log the access token
+            console.log('Access token after login:', response.data.accessToken); // Log the access token
+            navigate("/");
         }).catch(error => {
+            console.error('Login error:', error);
             Swal.fire({
                 title: 'Erro!',
                 text: "Não foi possível fazer login",
@@ -30,9 +33,32 @@ export default function Login() {
         });
     }
 
+    const handleRegister = () => {
+        Swal.fire({
+            title: 'Registro',
+            text: "Você será redirecionado para a página de registro",
+            icon: 'info',
+            confirmButtonText: 'Ok'
+        }).then(() => {
+            if (isAuthenticated()) {
+                console.log('Access token before logout:', localStorage.getItem('token')); // Log the access token before logout
+                logout();
+                console.log('Access token after logout:', localStorage.getItem('token')); // Log the access token after logout
+            }
+            navigate("/register");
+        }).catch(error => {
+            console.error('Register error:', error);
+        });
+    };
+
     return (
-        <div className="login-page" style={{ background: `url(${Background})`, backgroundSize: "cover", backgroundPosition: 'center', objectFit: 'cover' }}>
-            <div className="card card-gray" style={{ width: 600 }}>
+        <div className="login-page" style={{
+            background: `url(${Background})`,
+            backgroundSize: "cover",
+            backgroundPosition: 'center',
+            objectFit: 'cover'
+        }}>
+            <div className="card card-gray" style={{width: 600}}>
                 <div className="card-header text-center">
                     <a href="../../index.html" className="h1"><b>Alert </b> Net</a>
                 </div>
@@ -41,7 +67,8 @@ export default function Login() {
 
                     <form onSubmit={handleLogin}>
                         <div className="input-group mb-3">
-                            <input type="email" className="form-control" placeholder="Email" onChange={event => setEmail(event.target.value)} />
+                            <input type="email" className="form-control" placeholder="Email"
+                                   onChange={event => setEmail(event.target.value)}/>
                             <div className="input-group-append">
                                 <div className="input-group-text">
                                     <span className="fas fa-envelope"></span>
@@ -49,7 +76,8 @@ export default function Login() {
                             </div>
                         </div>
                         <div className="input-group mb-3">
-                            <input type="password" className="form-control" placeholder="Senha" onChange={event => setPassword(event.target.value)} />
+                            <input type="password" className="form-control" placeholder="Senha"
+                                   onChange={event => setPassword(event.target.value)}/>
                             <div className="input-group-append">
                                 <div className="input-group-text">
                                     <span className="fas fa-lock"></span>
@@ -59,7 +87,7 @@ export default function Login() {
                         <div className="row">
                             <div className="col-8">
                                 <div className="icheck-primary">
-                                    <input type="checkbox" id="remember" />
+                                    <input type="checkbox" id="remember"/>
                                     <label htmlFor="remember">
                                         Lembrar
                                     </label>
@@ -73,7 +101,7 @@ export default function Login() {
 
                     <div className="row mt-3">
                         <div className="col-12 text-center">
-                            <button onClick={() => navigate("/register")} className="btn btn-secondary btn-block">Registrar</button>
+                            <button onClick={handleRegister} className="btn btn-secondary btn-block">Registrar</button>
                         </div>
                     </div>
                 </div>
